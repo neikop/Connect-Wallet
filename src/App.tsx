@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { AccessAlarm } from '@mui/icons-material';
+import { Button, Container } from '@mui/material';
+import { DateTime } from 'luxon';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { walletService } from 'services';
 
-function App() {
+const Layout = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div>Layout</div>
+      <Link to='/home'>Home</Link>
     </div>
   );
-}
+};
+
+const App = () => {
+  const currentDate = DateTime.fromJSDate(new Date()).toFormat('dd/MM/yyyy');
+  return (
+    <Container>
+      <h1 className='text-3xl font-bold underline mb-[20px]'>Hello world!</h1>
+      <h2 className='text-2xl mb-[12px]'>{currentDate}</h2>
+      <Button
+        variant='outlined'
+        color='secondary'
+        startIcon={<AccessAlarm />}
+        onClick={() => walletService.connectWallet()}
+      >
+        Connect Wallet
+      </Button>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/*' element={<Layout />}></Route>
+          <Route path='/home' element={<div>Home</div>}></Route>
+        </Routes>
+      </BrowserRouter>
+    </Container>
+  );
+};
 
 export default App;
