@@ -1,37 +1,42 @@
-import { List, ListItemButton, ListItemText, styled } from '@mui/material';
+import { ListItemButton } from '@mui/material';
+import { styled } from '@mui/system';
+import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import { privateRoute } from 'routes';
+import { profileSelector } from 'reducers/profileSlice';
+import { profileRoute, publicRoute } from 'routes';
 
 const StyledListItem = styled(ListItemButton)({
-  borderRadius: 12,
-  '&.Mui-selected': {
-    backgroundColor: 'var(--color-primary-light) !important',
-  },
+  whiteSpace: 'nowrap',
+  height: '100%',
+  fontWeight: 700,
+  padding: '12px 40px',
   '&:hover': {
-    backgroundColor: 'var(--color-primary-main) !important',
+    background: 'linear-gradient(0deg, #FB4467 0%, rgba(0, 0, 0, 0) 100%) !important',
+  },
+  '&.Mui-selected': {
+    background: 'linear-gradient(0deg, #FB4467 0%, rgba(0, 0, 0, 0) 100%) !important',
   },
 });
 
-const MenuItem = ({ path, name }: { path: string; name?: string }) => {
-  const location = useLocation();
-
+const NavItem = ({ path, name }: { path: string; name: string }) => {
+  const { pathname } = useLocation();
+  const isHome = path === '/';
   return (
     <Link to={path}>
-      <StyledListItem selected={location.pathname.startsWith(path)}>
-        <ListItemText classes={{ primary: 'font-medium' }}>{name}</ListItemText>
-      </StyledListItem>
+      <StyledListItem selected={isHome ? pathname === path : pathname.startsWith(path)}>{name}</StyledListItem>
     </Link>
   );
 };
 
 const Menu = () => {
-  const { home, marketplace } = privateRoute;
-
+  const { isLoggedIn } = useSelector(profileSelector);
+  const { home, marketplace } = publicRoute;
   return (
-    <List className='flex flex-col gap-1'>
-      <MenuItem {...home} />
-      <MenuItem {...marketplace} />
-    </List>
+    <>
+      <NavItem {...home} />
+      <NavItem {...marketplace} />
+      {isLoggedIn && <NavItem path={profileRoute.inventory.url} name='Inventory' />}
+    </>
   );
 };
 
