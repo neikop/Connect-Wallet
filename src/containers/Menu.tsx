@@ -12,12 +12,7 @@ const StyledListItem = styled(ListItemButton)({
   },
 });
 
-type MenuItemProps = {
-  name?: string;
-  path: string;
-};
-
-const MenuItem = ({ name, path }: MenuItemProps) => {
+const MenuItem = ({ path, name }: { path: string; name?: string }) => {
   const location = useLocation();
 
   return (
