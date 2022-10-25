@@ -1,5 +1,7 @@
 import { Button, Typography } from '@mui/material';
 import { AppHeader } from 'containers';
+import { useWindowSize } from 'hooks';
+import useNotification from 'hooks/useNotification';
 import { useSelector } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { profileSelector } from 'reducers/profileSlice';
@@ -7,11 +9,14 @@ import { privateRoute } from 'routes';
 import { walletService } from 'services';
 
 const PrivateLayout = () => {
+  useNotification();
+
+  const { isMobile } = useWindowSize();
   const { isLoggedIn } = useSelector(profileSelector);
 
   return (
     <div>
-      <main className='ml-0 md:ml-[280px]'>
+      <main style={{ marginLeft: isMobile ? '0' : '280px' }}>
         <AppHeader />
         <div className='sm:px-6 px-4 py-4 pt-8'>
           {!isLoggedIn ? (

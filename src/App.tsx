@@ -7,8 +7,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { store } from 'reducers/store';
 import { queryClient } from 'services';
 
+const isAdmin = true;
+
 const App = () => {
-  const isAdmin = false;
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>

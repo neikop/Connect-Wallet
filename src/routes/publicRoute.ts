@@ -4,8 +4,8 @@ import { ProfileScreen } from 'views/Profile';
 
 const publicRoute = {
   home: {
-    path: '/',
-    name: 'Home',
+    path: '/dashboard',
+    name: 'Dashboard',
     component: Home,
   },
   marketplace: {
@@ -17,6 +17,7 @@ const publicRoute = {
   profile: {
     path: '/profile/*',
     url: '/profile',
+    name: 'Profile',
     component: ProfileScreen,
     requiredLogin: true,
   },

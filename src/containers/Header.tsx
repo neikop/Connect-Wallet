@@ -1,67 +1,61 @@
-import { AppBar, Button, Container, Divider, Menu, MenuItem, Toolbar } from '@mui/material';
-import { NetworkBar } from 'components';
-import { AppMenu } from 'containers';
-import { useAnchor, useValidNetwork } from 'hooks';
+import { Logout, Menu } from '@mui/icons-material';
+import { AppBar, Button, Divider, Drawer, IconButton, Toolbar } from '@mui/material';
+import { AppBreadcrumb, AppMenu } from 'containers';
+import { useWindowSize } from 'hooks';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { profileSelector, signOut } from 'reducers/profileSlice';
-import { profileRoute, publicRoute } from 'routes';
 import { walletService } from 'services';
 import { shorten } from 'utils/common';
 
 const Header = () => {
   const dispatch = useDispatch();
-  const { validNetwork } = useValidNetwork();
+  const { isMobile } = useWindowSize();
   const { isLoggedIn, address } = useSelector(profileSelector);
 
-  const [anchorProfile, openProfile, onOpenProfile, onCloseProfile] = useAnchor();
+  const [openDrawer, setOpenDrawer] = useState(false);
 
   return (
-    <AppBar component='header' position='sticky' elevation={0} color='transparent'>
-      <Toolbar className='px-0'>
-        <Container className='flex items-stretch h-[80px]'>
-          <div className='flex items-center justify-center w-[260px]'>
-            <Link to={publicRoute.home.path}>
-              <img src={require('assets/icons/Logo.png')} className='h-[56px]' />
-            </Link>
-          </div>
+    <>
+      <Drawer
+        variant={isMobile ? 'temporary' : 'persistent'}
+        anchor='left'
+        open={isMobile ? openDrawer : true}
+        onClose={() => setOpenDrawer(false)}
+        PaperProps={{ style: { width: '280px', padding: '8px 16px' } }}
+      >
+        <div className='flex justify-center items-center h-12'>
+          <img src={require('assets/icons/Logo.png')} className='h-10' />
+        </div>
+        <Divider className='my-2' />
+        <AppMenu />
+      </Drawer>
 
-          <div className='flex-1 flex justify-start gap-[4px]'>
-            <AppMenu />
-          </div>
+      <AppBar position='sticky' elevation={1} color='transparent'>
+        <Toolbar>
+          {isMobile && (
+            <IconButton onClick={() => setOpenDrawer(true)} className='mr-2'>
+              <Menu />
+            </IconButton>
+          )}
+          <AppBreadcrumb />
+          <div className='flex-1' />
 
-          <NetworkBar />
-          <div className='flex items-center'>
-            {isLoggedIn ? (
-              <Button size='large' className='shadow-card' onClick={onOpenProfile}>
-                {shorten(address)}
-              </Button>
-            ) : (
-              <Button size='large' className='shadow-card' onClick={() => validNetwork(walletService.connectWallet)}>
-                Connect Wallet
-              </Button>
-            )}
-
-            <Menu anchorEl={anchorProfile} open={openProfile} onClose={onCloseProfile} onClick={onCloseProfile}>
-              <Link to={profileRoute.profile.url}>
-                <MenuItem>Profile</MenuItem>
-              </Link>
-              <Link to={profileRoute.inventory.url}>
-                <MenuItem>Inventory</MenuItem>
-              </Link>
-              <Divider />
-              <MenuItem
-                onClick={() => {
-                  dispatch(signOut({}));
-                }}
-              >
-                Disconnect
-              </MenuItem>
-            </Menu>
-          </div>
-        </Container>
-      </Toolbar>
-    </AppBar>
+          {isLoggedIn ? (
+            <>
+              <IconButton color='secondary' className='mr-3' onClick={() => dispatch(signOut({}))}>
+                <Logout />
+              </IconButton>
+              <Button variant='outlined'>{shorten(address)}</Button>
+            </>
+          ) : (
+            <Button variant='outlined' onClick={() => walletService.connectWallet()}>
+              Connect Wallet
+            </Button>
+          )}
+        </Toolbar>
+      </AppBar>
+    </>
   );
 };
 
