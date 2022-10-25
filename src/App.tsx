@@ -1,39 +1,32 @@
-import { AccessAlarm } from '@mui/icons-material';
-import { Button, Container } from '@mui/material';
-import { DateTime } from 'luxon';
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
-import { walletService } from 'services';
-
-const Layout = () => {
-  return (
-    <div>
-      <div>Layout</div>
-      <Link to='/home'>Home</Link>
-    </div>
-  );
-};
+import { QueryClientProvider } from '@tanstack/react-query';
+import { AppTheme } from 'containers';
+import { PrivateLayout, PublicLayout } from 'layouts';
+import { SnackbarProvider } from 'notistack';
+import { Provider } from 'react-redux';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { store } from 'reducers/store';
+import { queryClient } from 'services';
 
 const App = () => {
-  const currentDate = DateTime.fromJSDate(new Date()).toFormat('dd/MM/yyyy');
+  const isAdmin = false;
   return (
-    <Container>
-      <h1 className='text-3xl font-bold underline mb-[20px]'>Hello world!</h1>
-      <h2 className='text-2xl mb-[12px]'>{currentDate}</h2>
-      <Button
-        variant='outlined'
-        color='secondary'
-        startIcon={<AccessAlarm />}
-        onClick={() => walletService.connectWallet()}
-      >
-        Connect Wallet
-      </Button>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/*' element={<Layout />}></Route>
-          <Route path='/home' element={<div>Home</div>}></Route>
-        </Routes>
-      </BrowserRouter>
-    </Container>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <SnackbarProvider preventDuplicate variant='success' anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+          <AppTheme>
+            <BrowserRouter>
+              <Routes>
+                {isAdmin ? (
+                  <Route path='/*' element={<PrivateLayout />} />
+                ) : (
+                  <Route path='/*' element={<PublicLayout />} />
+                )}
+              </Routes>
+            </BrowserRouter>
+          </AppTheme>
+        </SnackbarProvider>
+      </QueryClientProvider>
+    </Provider>
   );
 };
 
