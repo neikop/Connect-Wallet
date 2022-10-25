@@ -7,7 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { store } from 'reducers/store';
 import { queryClient } from 'services';
 
-const isAdmin = false;
+const isAdmin = true;
 
 const App = () => {
   return (
