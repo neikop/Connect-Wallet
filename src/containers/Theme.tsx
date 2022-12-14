@@ -1,6 +1,7 @@
 import { createTheme, responsiveFontSizes, ThemeProvider } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
+import { useNotification } from 'hooks';
 
 export const appTheme = createTheme({
   components: {
@@ -35,16 +36,15 @@ export const appTheme = createTheme({
         InputLabelProps: { shrink: true },
       },
     },
-    MuiDialog: {
-      defaultProps: {
-        fullWidth: true,
-        maxWidth: 'sm',
-      },
-    },
   },
   typography: {
-    fontFamily: `Montserrat`,
+    fontFamily: 'Montserrat',
     button: { fontWeight: 600, textTransform: 'none' },
+    subtitle1: { fontSize: 16, fontWeight: 500, lineHeight: 1.5 },
+    subtitle2: { fontSize: 14, fontWeight: 500, lineHeight: 1.43 },
+    body1: { fontSize: 16 },
+    body2: { fontSize: 14 },
+    caption: { fontSize: 12 },
   },
   palette: {
     primary: {
@@ -62,6 +62,8 @@ export const appTheme = createTheme({
 });
 
 const Theme = ({ children }: any) => {
+  useNotification();
+
   return (
     <ThemeProvider theme={responsiveFontSizes(appTheme)}>
       <LocalizationProvider dateAdapter={AdapterLuxon}>{children}</LocalizationProvider>

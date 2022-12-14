@@ -6,7 +6,6 @@ const InputNumber = React.forwardRef(({ onChange, ...props }: any, ref) => (
     getInputRef={ref}
     allowNegative={false}
     decimalScale={4}
-    thousandSeparator=','
     onValueChange={({ floatValue }) => {
       onChange({ target: { value: floatValue } });
     }}

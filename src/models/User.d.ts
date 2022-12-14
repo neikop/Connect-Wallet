@@ -1,12 +1,11 @@
-type ProfileType = {
+type ProfileType = UserType & {
   isLoggedIn: boolean;
   accessToken?: string;
-  address?: Address;
-  username?: string;
+  refreshToken?: string;
 };
 
 type UserType = {
-  id: string;
-  address: string;
-  username: string;
+  id?: string;
+  address?: string;
+  username?: string;
 };

@@ -2,12 +2,12 @@
 @import 'styles/mui';
 
 body {
-  font-family: Montserrat, sans-serif !important;
   font-size: 1rem;
+  font-family: 'Montserrat' !important;
 }
 
 main {
-  min-height: calc(100vh - 0px);
+  min-height: 100vh;
 }
 
 * {

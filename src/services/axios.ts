@@ -1,6 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
-import { APP_API } from 'env';
-import { camelizeKeys } from 'humps';
+import { API_URL } from 'env';
 import { openAlert } from 'reducers/notificationSlice';
 import { signOut } from 'reducers/profileSlice';
 import { store } from 'reducers/store';
@@ -31,10 +30,10 @@ const onError = async (error: AxiosError) => {
   return Promise.reject(error);
 };
 
-const client = axios.create({ baseURL: APP_API });
+const client = axios.create({ baseURL: API_URL });
 client.interceptors.request.use(beforeRequest);
 client.interceptors.response.use(({ data }) => data.data, onError);
 
-client.defaults.transformResponse = [...(axios.defaults.transformResponse as []), (data) => camelizeKeys(data)];
+client.defaults.transformResponse = [...(axios.defaults.transformResponse as []), (data) => data];
 
 export { client };

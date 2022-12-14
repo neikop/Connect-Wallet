@@ -8,60 +8,29 @@
   }
 }
 
-.MuiOutlinedInput-notchedOutline > legend {
-  width: unset;
-  font-size: 14px;
-}
-
 .MuiTableContainer-root {
   margin: 24px 0px;
 
-  .MuiTableBody-root > .MuiTableRow-root:last-child > .MuiTableCell-root {
-    border-bottom: none;
-  }
   .MuiTableRow-root:hover {
     background-color: #00000006;
   }
   .MuiTableCell-head {
-    background-color: var(--color-secondary-dark) !important;
-    color: #fff;
-    padding: 12px 16px;
-    text-align: center;
+    padding: 12px 12px;
   }
   .MuiTableCell-body {
-    padding: 12px 16px;
+    padding: 12px 12px;
   }
-  .MuiTableCell-body > .MuiCheckbox-root {
-    padding: 6px;
-  }
-}
-
-.MuiCheckbox-root {
-  padding: 6px !important;
 }
 
 .MuiDialog-root {
-  > .MuiDialog-container > .MuiPaper-root {
-    border-radius: 12px;
-    max-height: calc(100% - 128px);
-    padding: 24px;
-  }
-
-  @media (max-width: 600px) {
-    > .MuiDialog-container > .MuiPaper-root {
-      margin: 12px;
-      width: calc(100% - 24px);
-      padding: 24px 6px;
-    }
-  }
-
   .MuiDialogTitle-root {
     padding: 12px 16px;
     font-size: 24px;
     font-weight: 700;
   }
   .MuiDialogContent-root {
-    padding: 16px;
+    min-height: 120px;
+    padding: 16px 16px !important;
   }
   .MuiDialogActions-root {
     padding: 12px 16px;
@@ -72,7 +41,6 @@
   .MuiTabs-flexContainer {
     border-bottom: 1px solid #0003;
   }
-
   .MuiTab-root {
     border: 1px solid transparent;
     border-radius: 4px 4px 0px 0px;
@@ -96,10 +64,38 @@
   }
 }
 
+.MuiLoadingButton-root {
+  .MuiLoadingButton-loadingIndicator {
+    position: static;
+    left: 0px;
+    margin-left: 4px;
+    color: #fff9 !important;
+  }
+
+  &.MuiLoadingButton-loading {
+    color: #fff9 !important;
+  }
+}
+
+.MuiButton-root {
+  &.MuiButton-outlinedInherit {
+    border-color: #0008;
+    color: #000b;
+  }
+}
+
 .SnackbarContainer-top {
   top: 72px !important;
 
   .SnackbarContent-root {
-    font-family: Montserrat !important;
+    .SnackbarItem-message {
+      font-size: 16px;
+      font-family: 'Montserrat';
+
+      .MuiSvgIcon-root {
+        width: 22px;
+        height: 22px;
+      }
+    }
   }
 }
